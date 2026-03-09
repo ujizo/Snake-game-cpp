@@ -2,10 +2,7 @@
 #include <iostream>
 using namespace std;
 
-void setColor(int color) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, color);
-}
+// Функция setColor полностью удалена
 
 void gotoxy(int x, int y) {
     COORD coord;

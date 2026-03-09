@@ -58,7 +58,6 @@ void Setup() {
 }
 
 void DrawBorder() {
-    setColor(CYAN);
     gotoxy(0, 0);
     cout << "#";
     for (int i = 0; i < width; i++) {
@@ -90,18 +89,15 @@ void Draw() {
             gotoxy(j * 2 + 1, i + 1);
 
             if (i == y && j == x) {
-                setColor(LIGHT_GREEN);
                 cout << "OO";
             }
             else if (i == fruitY && j == fruitX) {
-                setColor(LIGHT_RED);
                 cout << "()";
             }
             else {
                 bool print = false;
                 for (int k = 0; k < nTail; k++) {
                     if (tailX[k] == j && tailY[k] == i) {
-                        setColor(GREEN);
                         cout << "oo";
                         print = true;
                         break;
@@ -114,19 +110,15 @@ void Draw() {
         }
     }
 
-    setColor(BRIGHT_WHITE);
     gotoxy(width * 2 + 5, 2);
     cout << "SNAKE GAME";
 
-    setColor(LIGHT_YELLOW);
     gotoxy(width * 2 + 5, 4);
     cout << "SCORE: " << score;
 
-    setColor(LIGHT_CYAN);
     gotoxy(width * 2 + 5, 6);
     cout << "LENGTH: " << nTail + 1;
 
-    setColor(LIGHT_MAGENTA);
     gotoxy(width * 2 + 5, 8);
     cout << "CONTROLS:";
     gotoxy(width * 2 + 5, 9);
@@ -134,11 +126,8 @@ void Draw() {
     gotoxy(width * 2 + 5, 10);
     cout << "X - exit";
 
-    setColor(LIGHT_RED);
     gotoxy(width * 2 + 5, 12);
     cout << "FRUIT: ()";
-
-    setColor(WHITE);
 }
 
 void Input() {
@@ -217,90 +206,56 @@ void Logic() {
 void ShowGameOver() {
     system("cls");
 
-    setColor(LIGHT_RED);
     for (int i = 0; i < 40; i++) cout << "#";
     cout << endl;
 
-    setColor(LIGHT_YELLOW);
     cout << "#" << "           GAME OVER!           " << "#" << endl;
 
-    setColor(LIGHT_CYAN);
     cout << "#" << "         FINAL SCORE: " << score << "        " << "#" << endl;
 
-    setColor(LIGHT_MAGENTA);
     cout << "#" << "         SNAKE LENGTH: " << nTail + 1 << "         " << "#" << endl;
 
-    setColor(LIGHT_RED);
     for (int i = 0; i < 40; i++) cout << "#";
     cout << endl;
 
-    setColor(BRIGHT_WHITE);
     cout << "\nPress Enter to continue...";
-
     while (_getch() != 13);
 }
 
 void ShowMenu() {
     int choice = 0;
-    int key;
 
     while (true) {
         system("cls");
 
-        setColor(LIGHT_YELLOW);
-        gotoxy(25, 2);
-        cout << "##############################";
-        gotoxy(25, 3);
-        cout << "#         Snake Game         #";
-        gotoxy(25, 4);
-        cout << "##############################";
+        cout << "##############################" << endl;
+        cout << "#         Snake Game         #" << endl;
+        cout << "##############################" << endl;
+        cout << endl;
+        cout << "SELECT DIFFICULTY:" << endl;
+        cout << endl;
+        cout << "1. EASY (Slow)" << endl;
+        cout << "2. MEDIUM (Normal)" << endl;
+        cout << "3. HARD (Fast)" << endl;
+        cout << "4. EXIT" << endl;
+        cout << endl;
+        cout << "CONTROLS: W/A/S/D - movement" << endl;
+        cout << "           X - exit game" << endl;
+        cout << endl;
+        cout << "Your choice (1-4): ";
 
-        setColor(LIGHT_CYAN);
-        gotoxy(25, 6);
-        cout << "SELECT DIFFICULTY:";
+        cin >> choice;
 
-        setColor(choice == 0 ? LIGHT_GREEN : WHITE);
-        gotoxy(27, 8);
-        cout << (choice == 0 ? "> " : "  ") << "EASY (Slow)";
+        if (choice == 4) {
+            system("cls");
+            exit(0);
+        }
 
-        setColor(choice == 1 ? LIGHT_GREEN : WHITE);
-        gotoxy(27, 10);
-        cout << (choice == 1 ? "> " : "  ") << "MEDIUM (Normal)";
-
-        setColor(choice == 2 ? LIGHT_GREEN : WHITE);
-        gotoxy(27, 12);
-        cout << (choice == 2 ? "> " : "  ") << "HARD (Fast)";
-
-        setColor(choice == 3 ? LIGHT_RED : WHITE);
-        gotoxy(27, 14);
-        cout << (choice == 3 ? "> " : "  ") << "EXIT";
-
-        setColor(LIGHT_MAGENTA);
-        gotoxy(22, 16);
-        cout << "CONTROLS: W/A/S/D - movement";
-        gotoxy(22, 17);
-        cout << "           X - exit game";
-
-        key = _getch();
-
-        switch (key) {
-        case 72: // Вверх
-            choice = (choice > 0) ? choice - 1 : 3;
-            break;
-        case 80: // Вниз
-            choice = (choice < 3) ? choice + 1 : 0;
-            break;
-        case 13: // Enter
-            if (choice == 3) {
-                setColor(WHITE);
-                system("cls");
-                exit(0);
-            }
-
+        if (choice >= 1 && choice <= 3) {
             switch (choice) {
-            case 0: gameSpeed = 100; break;
-            case 1: gameSpeed = 60; break;
-            case 2: gameSpeed = 30; break;
+            case 1: gameSpeed = 100; break;
+            case 2: gameSpeed = 60; break;
+            case 3: gameSpeed = 30; break;
             }
 
             system("cls");
@@ -313,7 +268,6 @@ void ShowMenu() {
             }
 
             ShowGameOver();
-            break;
         }
     }
 }
