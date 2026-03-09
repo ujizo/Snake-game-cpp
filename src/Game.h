@@ -1,5 +1,4 @@
 #pragma once
-// Убрано включение Color.h, так как оно больше не нужно
 
 extern bool gameOver;
 extern const int width;

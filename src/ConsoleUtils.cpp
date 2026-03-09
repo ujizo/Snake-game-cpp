@@ -2,7 +2,6 @@
 #include <iostream>
 using namespace std;
 
-// Функция setColor полностью удалена
 
 void gotoxy(int x, int y) {
     COORD coord;

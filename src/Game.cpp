@@ -4,9 +4,8 @@
 #include <conio.h>
 #include <windows.h>
 #include <cstdlib>
-using namespace std;
 
-// Определение глобальных переменных
+
 bool gameOver;
 const int width = 20;
 const int height = 20;
@@ -23,8 +22,8 @@ void GenerateFruit() {
 
     do {
         validPosition = true;
-        fruitX = rand() % width;
-        fruitY = rand() % height;
+        fruitX = std::rand() % width;
+        fruitY = std::rand() % height;
 
         if (fruitX == x && fruitY == y) {
             validPosition = false;
@@ -38,8 +37,8 @@ void GenerateFruit() {
 
         attempts++;
         if (attempts > maxAttempts) {
-            fruitX = rand() % width;
-            fruitY = rand() % height;
+            fruitX = std::rand() % width;
+            fruitY = std::rand() % height;
             return;
         }
     } while (!validPosition);
@@ -59,25 +58,25 @@ void Setup() {
 
 void DrawBorder() {
     gotoxy(0, 0);
-    cout << "#";
+    std::cout << "#";
     for (int i = 0; i < width; i++) {
-        cout << "##";
+        std::cout << "##";
     }
-    cout << "#";
+    std::cout << "#";
 
     for (int i = 0; i < height; i++) {
         gotoxy(0, i + 1);
-        cout << "#";
+        std::cout << "#";
         gotoxy(width * 2 + 1, i + 1);
-        cout << "#";
+        std::cout << "#";
     }
 
     gotoxy(0, height + 1);
-    cout << "#";
+    std::cout << "#";
     for (int i = 0; i < width; i++) {
-        cout << "##";
+        std::cout << "##";
     }
-    cout << "#";
+    std::cout << "#";
 }
 
 void Draw() {
@@ -89,45 +88,45 @@ void Draw() {
             gotoxy(j * 2 + 1, i + 1);
 
             if (i == y && j == x) {
-                cout << "OO";
+                std::cout << "OO";
             }
             else if (i == fruitY && j == fruitX) {
-                cout << "()";
+                std::cout << "()";
             }
             else {
                 bool print = false;
                 for (int k = 0; k < nTail; k++) {
                     if (tailX[k] == j && tailY[k] == i) {
-                        cout << "oo";
+                        std::cout << "oo";
                         print = true;
                         break;
                     }
                 }
                 if (!print) {
-                    cout << "  ";
+                    std::cout << "  ";
                 }
             }
         }
     }
 
     gotoxy(width * 2 + 5, 2);
-    cout << "SNAKE GAME";
+    std::cout << "SNAKE GAME";
 
     gotoxy(width * 2 + 5, 4);
-    cout << "SCORE: " << score;
+    std::cout << "SCORE: " << score;
 
     gotoxy(width * 2 + 5, 6);
-    cout << "LENGTH: " << nTail + 1;
+    std::cout << "LENGTH: " << nTail + 1;
 
     gotoxy(width * 2 + 5, 8);
-    cout << "CONTROLS:";
+    std::cout << "CONTROLS:";
     gotoxy(width * 2 + 5, 9);
-    cout << "WASD - move";
+    std::cout << "WASD - move";
     gotoxy(width * 2 + 5, 10);
-    cout << "X - exit";
+    std::cout << "X - exit";
 
     gotoxy(width * 2 + 5, 12);
-    cout << "FRUIT: ()";
+    std::cout << "FRUIT: ()";
 }
 
 void Input() {
@@ -206,19 +205,19 @@ void Logic() {
 void ShowGameOver() {
     system("cls");
 
-    for (int i = 0; i < 40; i++) cout << "#";
-    cout << endl;
+    for (int i = 0; i < 40; i++) std::cout << "#";
+    std::cout << std::endl;
 
-    cout << "#" << "           GAME OVER!           " << "#" << endl;
+    std::cout << "#" << "           GAME OVER!           " << "#" << std::endl;
 
-    cout << "#" << "         FINAL SCORE: " << score << "        " << "#" << endl;
+    std::cout << "#" << "         FINAL SCORE: " << score << "        " << "#" << std::endl;
 
-    cout << "#" << "         SNAKE LENGTH: " << nTail + 1 << "         " << "#" << endl;
+    std::cout << "#" << "         SNAKE LENGTH: " << nTail + 1 << "         " << "#" << std::endl;
 
-    for (int i = 0; i < 40; i++) cout << "#";
-    cout << endl;
+    for (int i = 0; i < 40; i++) std::cout << "#";
+    std::cout << std::endl;
 
-    cout << "\nPress Enter to continue...";
+    std::cout << "\nPress Enter to continue...";
     while (_getch() != 13);
 }
 
@@ -228,27 +227,27 @@ void ShowMenu() {
     while (true) {
         system("cls");
 
-        cout << "##############################" << endl;
-        cout << "#         Snake Game         #" << endl;
-        cout << "##############################" << endl;
-        cout << endl;
-        cout << "SELECT DIFFICULTY:" << endl;
-        cout << endl;
-        cout << "1. EASY (Slow)" << endl;
-        cout << "2. MEDIUM (Normal)" << endl;
-        cout << "3. HARD (Fast)" << endl;
-        cout << "4. EXIT" << endl;
-        cout << endl;
-        cout << "CONTROLS: W/A/S/D - movement" << endl;
-        cout << "           X - exit game" << endl;
-        cout << endl;
-        cout << "Your choice (1-4): ";
+        std::cout << "##############################" << std::endl;
+        std::cout << "#         Snake Game         #" << std::endl;
+        std::cout << "##############################" << std::endl;
+        std::cout << std::endl;
+        std::cout << "SELECT DIFFICULTY:" << std::endl;
+        std::cout << std::endl;
+        std::cout << "1. EASY (Slow)" << std::endl;
+        std::cout << "2. MEDIUM (Normal)" << std::endl;
+        std::cout << "3. HARD (Fast)" << std::endl;
+        std::cout << "4. EXIT" << std::endl;
+        std::cout << std::endl;
+        std::cout << "CONTROLS: W/A/S/D - movement" << std::endl;
+        std::cout << "           X - exit game" << std::endl;
+        std::cout << std::endl;
+        std::cout << "Your choice (1-4): ";
 
-        cin >> choice;
+        std::cin >> choice;
 
         if (choice == 4) {
             system("cls");
-            exit(0);
+            std::exit(0);
         }
 
         if (choice >= 1 && choice <= 3) {

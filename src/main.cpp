@@ -3,14 +3,13 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-using namespace std;
 
 int main() {
-    system("title Snake Game");
-    system("mode con cols=70 lines=25");
+    std::system("title Snake Game");
+    std::system("mode con cols=70 lines=25");
     hideCursor();
 
-    srand(time(NULL));
+    std::srand(std::time(NULL));
 
     ShowMenu();
 
