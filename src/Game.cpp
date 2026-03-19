@@ -4,7 +4,12 @@
 #include <conio.h>
 #include <windows.h>
 #include <cstdlib>
+#include <limits>
+#include <string>
 
+// отключение макросов min/max из Windows.h
+#undef max
+#undef min
 
 bool gameOver;
 const int width = 20;
@@ -14,6 +19,27 @@ int tailX[100], tailY[100];
 int nTail;
 int gameSpeed;
 eDirecton dir;
+
+void ClearInputStream() {
+    std::cin.clear();
+    std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+}
+
+bool IsValidIntegerInput(int& value, int min, int max) {
+    std::cin >> value;
+    
+    if (std::cin.fail()) {
+        ClearInputStream();
+        return false;
+    }
+    
+    if (value < min || value > max) {
+        ClearInputStream();
+        return false;
+    }
+    
+    return true;
+}
 
 void GenerateFruit() {
     bool validPosition;
@@ -131,26 +157,29 @@ void Draw() {
 
 void Input() {
     if (_kbhit()) {
-        switch (_getch()) {
+        char key = _getch();
+        
+        if (key >= 'A' && key <= 'Z') {
+            key = key - 'A' + 'a';
+        }
+        
+        switch (key) {
         case 'a':
-        case 'A':
             if (dir != RIGHT) dir = LEFT;
             break;
         case 'd':
-        case 'D':
             if (dir != LEFT) dir = RIGHT;
             break;
         case 'w':
-        case 'W':
             if (dir != DOWN) dir = UP;
             break;
         case 's':
-        case 'S':
             if (dir != UP) dir = DOWN;
             break;
         case 'x':
-        case 'X':
             gameOver = true;
+            break;
+        default:
             break;
         }
     }
@@ -218,11 +247,16 @@ void ShowGameOver() {
     std::cout << std::endl;
 
     std::cout << "\nPress Enter to continue...";
-    while (_getch() != 13);
+    
+    int ch;
+    do {
+        ch = _getch();
+    } while (ch != 13);
 }
 
 void ShowMenu() {
     int choice = 0;
+    bool validInput;
 
     while (true) {
         system("cls");
@@ -241,32 +275,54 @@ void ShowMenu() {
         std::cout << "CONTROLS: W/A/S/D - movement" << std::endl;
         std::cout << "           X - exit game" << std::endl;
         std::cout << std::endl;
-        std::cout << "Your choice (1-4): ";
 
-        std::cin >> choice;
+        do {
+            std::cout << "Your choice (1-4): ";
+            validInput = IsValidIntegerInput(choice, 1, 4);
+            
+            if (!validInput) {
+                std::cout << "Invalid input! Please enter a number between 1 and 4." << std::endl;
+            }
+        } while (!validInput);
 
         if (choice == 4) {
             system("cls");
+            std::cout << "Thanks for playing! Goodbye!" << std::endl;
+            Sleep(1500);
             std::exit(0);
         }
 
-        if (choice >= 1 && choice <= 3) {
-            switch (choice) {
-            case 1: gameSpeed = 100; break;
-            case 2: gameSpeed = 60; break;
-            case 3: gameSpeed = 30; break;
-            }
-
-            system("cls");
-            Setup();
-            while (!gameOver) {
-                Draw();
-                Input();
-                Logic();
-                Sleep(gameSpeed);
-            }
-
-            ShowGameOver();
+        switch (choice) {
+        case 1: gameSpeed = 100; break;
+        case 2: gameSpeed = 60; break;
+        case 3: gameSpeed = 30; break;
         }
+
+        system("cls");
+        Setup();
+        
+        while (!gameOver) {
+            Draw();
+            Input();
+            Logic();
+            Sleep(gameSpeed);
+        }
+
+        ShowGameOver();
     }
+}
+
+bool GetUserInput(std::string& output, const std::string& prompt, int maxLength) {
+    std::cout << prompt;
+    std::getline(std::cin, output);
+    
+    if (output.empty()) {
+        return false;
+    }
+    
+    if (output.length() > maxLength) {
+        output = output.substr(0, maxLength);
+    }
+    
+    return true;
 }
